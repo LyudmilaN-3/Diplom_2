@@ -14,7 +14,7 @@ from sources.user_support import (
 class TestLoginUser:
 
     @allure.title('Проверка возможности логина пользователя')
-    @allure.issue(f'{urls.MAIN_URL}{urls.UserAPIRoutes.ENDPOINT_USER_LOGIN}')
+    @allure.issue(urls.POST_LOGIN_USER_ROUTE)
     def test_login_user_exist_user_available_success(self, get_exist_user_data, delete_fix):
         current_response = login(get_exist_user_data['payload'])
         decod_resp = response_user(current_response)
@@ -23,7 +23,7 @@ class TestLoginUser:
         assert decod_resp['message_success'] == Constants.RESPONSE_SUCCESS
 
     @allure.title('Проверка невозможности логина пользователя с неверным логином или паролем')
-    @allure.issue(f'{urls.MAIN_URL}{urls.UserAPIRoutes.ENDPOINT_USER_LOGIN}')
+    @allure.issue(urls.POST_LOGIN_USER_ROUTE)
     @pytest.mark.parametrize('wrong_field', ['email', 'password'])
     def test_login_user_exist_user_wrong_field_unavailable_success(self, get_exist_user_data, delete_fix, wrong_field):
         current_response = login(get_exist_user_data['payload'], wrong_field)

@@ -7,7 +7,7 @@ from sources import data, urls
 @allure.step('Формирование тела запроса')
 def get_data_for_create_order(get_exist_user_data, not_valid=False):
     data.ingredients["ingredients"] = Constants.TEST_ING_LIST
-    url = urls.OrderAPIRoutes().post_get_api_order_route()
+    url = urls.POST_GET_ORDER_ROUTE
     data.headers["Authorization"] = get_exist_user_data['response'].json()['accessToken']
     if not_valid is True:
         data.ingredients["ingredients"] = [f'new{Constants.TEST_BUN}']

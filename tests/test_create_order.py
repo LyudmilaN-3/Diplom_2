@@ -14,7 +14,7 @@ from sources.order_support import (
 class TestCreateOrder:
 
     @allure.title('Проверка возможности создания заказа')
-    @allure.issue(f'{urls.MAIN_URL}{urls.OrderAPIRoutes.ENDPOINT_ORDER_CREATE_GET}')
+    @allure.issue(urls.POST_GET_ORDER_ROUTE)
     def test_create_order_available_success(self, get_exist_user_data, delete_fix, not_valid=False):
         order_data = data_order(get_exist_user_data, not_valid)
         current_response = requests.post(
@@ -29,7 +29,7 @@ class TestCreateOrder:
         assert 'owner_name' in decod_resp
 
     @allure.title('Проверка возможности создания заказа неавторизованным пользователем')
-    @allure.issue(f'{urls.MAIN_URL}{urls.OrderAPIRoutes.ENDPOINT_ORDER_CREATE_GET}')
+    @allure.issue(urls.POST_GET_ORDER_ROUTE)
     def test_create_order_not_auth_available_success(self, get_exist_user_data, delete_fix, not_valid=False):
         order_data = data_order(get_exist_user_data, not_valid)
         current_response = requests.post(url=order_data['url'], data=order_data['data'])
@@ -40,7 +40,7 @@ class TestCreateOrder:
         assert 'owner_name' not in decod_resp
 
     @allure.title('Проверка невозможности создания заказа без ингредиентов')
-    @allure.issue(f'{urls.MAIN_URL}{urls.OrderAPIRoutes.ENDPOINT_ORDER_CREATE_GET}')
+    @allure.issue(urls.POST_GET_ORDER_ROUTE)
     def test_create_order_not_ingredients_unavailable_success(self, get_exist_user_data, delete_fix, not_valid=False):
         order_data = data_order(get_exist_user_data, not_valid)
         current_response = requests.post(url=order_data['url'], headers=order_data['headers'])
@@ -51,7 +51,7 @@ class TestCreateOrder:
         assert decod_resp['message'] == Constants.ERROR_MESSAGE_NOT_INGREDIENTS
 
     @allure.title('Проверка невозможности создания заказа с неверным хешем ингредиента')
-    @allure.issue(f'{urls.MAIN_URL}{urls.OrderAPIRoutes.ENDPOINT_ORDER_CREATE_GET}')
+    @allure.issue(urls.POST_GET_ORDER_ROUTE)
     def test_create_order_wrong_hash_ingredient_unavailable_success(
             self, get_exist_user_data, delete_fix, not_valid=True
     ):

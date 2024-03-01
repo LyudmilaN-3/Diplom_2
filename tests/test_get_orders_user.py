@@ -14,7 +14,7 @@ from sources.order_support import (
 class TestGetOrdersUser:
 
     @allure.title('Проверка возможности получения заказов пользователя')
-    @allure.issue(f'{urls.MAIN_URL}{urls.OrderAPIRoutes.ENDPOINT_ORDER_CREATE_GET}')
+    @allure.issue(urls.POST_GET_ORDER_ROUTE)
     def test_get_orders_user_available_success(self, get_exist_user_data, delete_fix, not_valid=False):
         order_data = data_order(get_exist_user_data, not_valid)
         current_response = requests.get(url=order_data['url'], headers=order_data['headers'])
@@ -25,7 +25,7 @@ class TestGetOrdersUser:
         assert 'total' in decod_resp
 
     @allure.title('Проверка невозможности получения заказов неавторизованного пользователя')
-    @allure.issue(f'{urls.MAIN_URL}{urls.OrderAPIRoutes.ENDPOINT_ORDER_CREATE_GET}')
+    @allure.issue(urls.POST_GET_ORDER_ROUTE)
     def test_get_orders_not_auth_user_unavailable_success(self, get_exist_user_data, delete_fix, not_valid=False):
         order_data = data_order(get_exist_user_data, not_valid)
         current_response = requests.get(url=order_data['url'])

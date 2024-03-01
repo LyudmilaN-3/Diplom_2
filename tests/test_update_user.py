@@ -14,7 +14,7 @@ from sources.user_support import (
 class TestUpdateUser:
 
     @allure.title('Проверка возможности изменения данных пользователя')
-    @allure.issue(f'{urls.MAIN_URL}{urls.UserAPIRoutes.ENDPOINT_USER_UPDATE_DELETE}')
+    @allure.issue(urls.UPDATE_DELETE_USER_ROUTE)
     @pytest.mark.parametrize('update_field', ['email', 'name'])
     def test_update_user_available_success(self, get_exist_user_data, update_field, delete_fix, not_auth=False):
         update_field_value = get_exist_user_data['payload'][update_field]
@@ -27,7 +27,7 @@ class TestUpdateUser:
         assert update_field_new_value != update_field_value
 
     @allure.title('Проверка невозможности изменения данных пользователя без авторизации')
-    @allure.issue(f'{urls.MAIN_URL}{urls.UserAPIRoutes.ENDPOINT_USER_UPDATE_DELETE}')
+    @allure.issue(urls.UPDATE_DELETE_USER_ROUTE)
     @pytest.mark.parametrize('update_field', ['email', 'name'])
     def test_update_user_not_auth_unavailable_success(
             self, get_exist_user_data, update_field, delete_fix, not_auth=True

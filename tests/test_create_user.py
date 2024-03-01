@@ -14,7 +14,7 @@ from sources.user_support import (
 class TestCreateUser:
 
     @allure.title('Проверка возможности создания пользователя')
-    @allure.issue(f'{urls.MAIN_URL}{urls.UserAPIRoutes.ENDPOINT_USER_CREATE}')
+    @allure.issue(urls.POST_REG_USER_ROUTE)
     def test_create_user_available_success(self, get_new_user_data, delete_fix):
         current_response = register(get_new_user_data)
         decod_resp = response_user(current_response)
@@ -23,7 +23,7 @@ class TestCreateUser:
         assert decod_resp['message_success'] == Constants.RESPONSE_SUCCESS
 
     @allure.title('Проверка невозможности создания уже зарегистрированного пользователя')
-    @allure.issue(f'{urls.MAIN_URL}{urls.UserAPIRoutes.ENDPOINT_USER_CREATE}')
+    @allure.issue(urls.POST_REG_USER_ROUTE)
     def test_create_user_as_prev_user_unavailable_success(self, get_new_user_data, delete_fix):
         reg_data = register(get_new_user_data)
         current_response = register(get_new_user_data)
@@ -34,7 +34,7 @@ class TestCreateUser:
         assert decod_resp['message'] == Constants.ERROR_MESSAGE_FOR_EXIST_USER
 
     @allure.title('Проверка невозможности создания пользователя при не заполненном обязательном поле')
-    @allure.issue(f'{urls.MAIN_URL}{urls.UserAPIRoutes.ENDPOINT_USER_CREATE}')
+    @allure.issue(urls.POST_REG_USER_ROUTE)
     @pytest.mark.parametrize('miss_field', ['email', 'password', 'name'])
     def test_create_user_empty_required_field_unavailable_success(self, get_new_user_data, miss_field, delete_fix):
         current_response = register(get_new_user_data, miss_field)

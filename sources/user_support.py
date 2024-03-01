@@ -3,8 +3,7 @@ import requests
 import random
 import string
 
-from sources import data
-from sources.urls import UserAPIRoutes
+from sources import data, urls
 
 
 @allure.step('Формирование тела запроса для регистрации пользователя')
@@ -26,7 +25,7 @@ def get_data_for_create_user():
 
 @allure.step('Регистрация нового пользователя')
 def register_new_user(get_new_user_data, miss_field=None):
-    url = UserAPIRoutes().post_reg_api_user_route()
+    url = urls.POST_REG_USER_ROUTE
     if miss_field is not None:
         payload = get_invalid_new_user_data(miss_field)
         return requests.post(url=url, data=payload)
@@ -36,7 +35,7 @@ def register_new_user(get_new_user_data, miss_field=None):
 
 @allure.step('Логин существующего пользователя')
 def login_exist_user(get_exist_user_data, wrong_field=None):
-    url = UserAPIRoutes().post_login_api_user_route()
+    url = urls.POST_LOGIN_USER_ROUTE
     if wrong_field is not None:
         payload = get_invalid_new_user_data(wrong_field)
         return requests.post(url=url, data=payload)
@@ -46,7 +45,7 @@ def login_exist_user(get_exist_user_data, wrong_field=None):
 
 @allure.step('Изменение данных пользователя')
 def update_exist_user(get_exist_user_data, not_auth, update_field=None):
-    url = UserAPIRoutes().update_delete_api_user_route()
+    url = urls.UPDATE_DELETE_USER_ROUTE
     payload = get_update_new_user_data(get_exist_user_data, update_field)
     if not_auth is True:
         return requests.patch(url=url, data=payload)
@@ -79,11 +78,11 @@ def get_response_post_user(response):
 @allure.step('Удаление пользователя')
 def delete_user(token):
     if 'access_token' in token:
-        url = UserAPIRoutes().update_delete_api_user_route()
+        url = urls.UPDATE_DELETE_USER_ROUTE
         data.headers["Authorization"] = token['access_token']
         requests.delete(url=url, headers=data.headers)
     elif 'token' in token:
-        url = UserAPIRoutes().update_delete_api_user_route()
+        url = urls.UPDATE_DELETE_USER_ROUTE
         data.headers["Authorization"] = token['token']['accessToken']
         requests.delete(url=url, headers=data.headers)
 
